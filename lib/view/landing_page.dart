@@ -49,8 +49,8 @@ class LandingPage extends StatelessWidget {
               child: Center(
                 child: BlurBox(
                   radius: 100,
-                  height: 38,
-                  width: 165.w / 4,
+                  height: 20.sp,
+                  width: 120.sp,
                   child: Center(
                     child: Row(
                       children: [
@@ -93,7 +93,7 @@ class LandingPage extends StatelessWidget {
             right: 10,
             child: BlurBox(
               radius: 15,
-              height: MediaQuery.of(context).size.height / 2.6,
+              height: 180.sp,
               width: MediaQuery.of(context).size.width,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.sp),
@@ -116,7 +116,7 @@ class LandingPage extends StatelessWidget {
                           ),
                           Container(
                             color: Colors.transparent,
-                            height: constraints.maxHeight / 9.sp,
+                            height: 10.sp,
                           ),
                           Container(
                             color: Colors.transparent,
