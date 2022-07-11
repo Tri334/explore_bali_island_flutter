@@ -49,7 +49,7 @@ class LandingPage extends StatelessWidget {
               child: Center(
                 child: BlurBox(
                   radius: 100,
-                  height: 20.sp,
+                  height: 26.sp,
                   width: 120.sp,
                   child: Center(
                     child: Row(
@@ -77,10 +77,10 @@ class LandingPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const Expanded(
+                        Expanded(
                             flex: 1,
                             child: SizedBox(
-                              width: 5,
+                              width: 5.sp,
                             )),
                       ],
                     ),

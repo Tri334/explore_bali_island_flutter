@@ -128,86 +128,126 @@ class PlaceInfo extends StatelessWidget {
                 SizedBox(
                   height: 10.sp,
                 ),
-                Container(
-                  height: 200.sp,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(24),
-                          topRight: Radius.circular(24))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 10.sp),
-                        child: Center(
-                          child: Container(
-                            height: 2.sp,
-                            width: 80.sp,
-                            decoration: const BoxDecoration(color: Colors.grey),
-                          ),
-                        ),
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (context) {
+                          return Sheet(map: map, star: star, dsc: dsc);
+                        });
+                  },
+                  child: Container(
+                    height: 20.sp,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            topRight: Radius.circular(24))),
+                    child: Center(
+                      child: Container(
+                        height: 2.sp,
+                        width: 80.sp,
+                        decoration: const BoxDecoration(color: Colors.grey),
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(25.sp, 24.sp, 25.sp, 7.sp),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  ExploreBaliIsland.map_pin,
-                                  size: 18.sp,
-                                  color: const Color(0xff064789),
-                                ),
-                                SizedBox(
-                                  width: 4.sp,
-                                ),
-                                Text(
-                                  map,
-                                  style: TextStyle(
-                                      fontFamily: 'Nunito',
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  ExploreBaliIsland.star,
-                                  size: 18.sp,
-                                  color: const Color(0xffF4EB08),
-                                ),
-                                SizedBox(
-                                  width: 3.sp,
-                                ),
-                                Text(
-                                  star,
-                                  style: TextStyle(
-                                      fontFamily: 'Nunito',
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: 20.sp, left: 30.sp, right: 30.sp),
-                        child: Text(
-                          dsc,
-                          style: TextStyle(
-                              color: const Color(0xffABABAB), fontSize: 12.sp),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Sheet extends StatelessWidget {
+  const Sheet({
+    Key? key,
+    required this.map,
+    required this.star,
+    required this.dsc,
+  }) : super(key: key);
+
+  final String map;
+  final String star;
+  final String dsc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200.sp,
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24), topRight: Radius.circular(24))),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 10.sp),
+            child: Center(
+              child: Container(
+                height: 2.sp,
+                width: 80.sp,
+                decoration: const BoxDecoration(color: Colors.grey),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(25.sp, 24.sp, 25.sp, 7.sp),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      ExploreBaliIsland.map_pin,
+                      size: 18.sp,
+                      color: const Color(0xff064789),
+                    ),
+                    SizedBox(
+                      width: 4.sp,
+                    ),
+                    Text(
+                      map,
+                      style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      ExploreBaliIsland.star,
+                      size: 18.sp,
+                      color: const Color(0xffF4EB08),
+                    ),
+                    SizedBox(
+                      width: 3.sp,
+                    ),
+                    Text(
+                      star,
+                      style: TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600),
+                    )
+                  ],
                 )
               ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 20.sp, left: 30.sp, right: 30.sp),
+            child: Text(
+              dsc,
+              style: TextStyle(color: const Color(0xffABABAB), fontSize: 12.sp),
             ),
           )
         ],
