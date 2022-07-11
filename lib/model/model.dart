@@ -48,3 +48,9 @@ customText({required childStyles, required String type}) {
     ),
   );
 }
+
+var landingImages = [
+  "assets/images/landingPage.png",
+  "assets/images/landing2.jpg",
+  "assets/images/landing3.jpg",
+];

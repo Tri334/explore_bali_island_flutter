@@ -27,7 +27,7 @@ class Nearby {
   String distant;
   bool favorite;
   int id;
-  String img;
+  List img;
   String place;
   String star;
 
@@ -36,7 +36,7 @@ class Nearby {
         distant: json["distant"],
         favorite: json["favorite"],
         id: json["id"],
-        img: json["img"],
+        img: json["img"].split(','),
         map: json["map"],
         place: json["place"],
         star: json["star"],

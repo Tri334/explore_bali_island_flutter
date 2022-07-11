@@ -1,3 +1,4 @@
+import 'package:explore_bali_island_flutter/view/home/models/home_models.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
@@ -16,6 +17,7 @@ class ApiService {
     final response = await get(
         Uri.parse("https://mockend.com/Tri334/fakeApiMocked/nearby?limit=10"));
     final nearby = nearbyFromJson(response.body);
+
     return nearby;
   }
 }

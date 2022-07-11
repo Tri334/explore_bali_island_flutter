@@ -7,16 +7,11 @@ abstract class HomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchDataEvent extends HomeEvent {
-  @override
-  List<Object> get props => [];
-}
+class FetchDataEvent extends HomeEvent {}
 
-class FetchColorEvent extends HomeEvent {
-  final String placeTypes;
-  const FetchColorEvent({this.placeTypes = ''});
-  @override
-  List<Object> get props {
-    return [placeTypes];
-  }
+class ChangeFilterEvent extends HomeEvent {
+  final String selectedfilter;
+  const ChangeFilterEvent(this.selectedfilter);
+  // @override
+  // List<Object> get props => [selectedfilter];
 }

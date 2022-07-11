@@ -1,29 +1,32 @@
 part of '../../landing_page.dart';
 
 class ImageBox extends StatelessWidget {
-  const ImageBox({
+  ImageBox({
     Key? key,
     this.type = 'nearby',
     this.distant = '',
-    this.img = '',
+    this.img = const [],
     this.place = '',
     this.map = '',
     this.star = '',
     this.dsc = '',
     this.fav = false,
   }) : super(key: key);
-  final String type, map, distant, img, place, star, dsc;
+  final String type, map, distant, place, star, dsc;
+  final List img;
   final bool fav;
+  final Random random = Random();
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(right: 10.sp),
         child: Container(
             decoration: BoxDecoration(
-                color: Colors.green,
+                color: Colors.transparent,
                 borderRadius: BorderRadius.circular(24),
-                image:
-                    DecorationImage(image: AssetImage(img), fit: BoxFit.cover)),
+                image: DecorationImage(
+                    image: AssetImage(img[random.nextInt(img.length)]),
+                    fit: BoxFit.cover)),
             height: 200.sp,
             width: 200.sp,
             child: Stack(

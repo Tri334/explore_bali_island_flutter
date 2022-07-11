@@ -24,7 +24,7 @@ class Popular {
   String desc;
   bool favorite;
   int id;
-  String img;
+  List img;
   String map;
   String place;
   String star;
@@ -33,7 +33,7 @@ class Popular {
         desc: json["desc"],
         favorite: json["favorite"],
         id: json["id"],
-        img: json["img"],
+        img: json["img"].split(','),
         map: json["map"],
         place: json["place"],
         star: json["star"],

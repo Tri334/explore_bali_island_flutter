@@ -1,6 +1,6 @@
 part of '../../landing_page.dart';
 
-class PlaceInfo extends StatelessWidget {
+class PlaceInfo extends StatefulWidget {
   const PlaceInfo(
       {Key? key,
       required this.map,
@@ -9,19 +9,41 @@ class PlaceInfo extends StatelessWidget {
       required this.place_name,
       required this.img})
       : super(key: key);
-  final String map, star, dsc, img, place_name;
+  final String map, star, dsc, place_name;
+  final List img;
+
+  @override
+  State<PlaceInfo> createState() => _PlaceInfoState();
+}
+
+class _PlaceInfoState extends State<PlaceInfo> {
+  final PageController _pageController = PageController(
+    initialPage: 1,
+  );
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                image:
-                    DecorationImage(image: AssetImage(img), fit: BoxFit.cover)),
+          PageView.builder(
+            // itemCount: widget.img.length,
+            controller: _pageController,
+            itemBuilder: (context, index) => GestureDetector(
+              onVerticalDragStart: (details) {
+                showInfo(context);
+              },
+              child: Image(
+                image: AssetImage(widget.img[index % widget.img.length]),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           Positioned(
             top: 40,
@@ -52,7 +74,7 @@ class PlaceInfo extends StatelessWidget {
                   blur: 0.1,
                   child: Center(
                     child: Text(
-                      place_name,
+                      widget.place_name,
                       style: TextStyle(
                           fontFamily: 'Nunito',
                           fontSize: 16.sp,
@@ -67,10 +89,19 @@ class PlaceInfo extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: const Color(0xffEFEFEF),
                       borderRadius: BorderRadius.circular(100)),
-                  child: Icon(
-                    size: 24.sp / 1.2,
-                    ExploreBaliIsland.more_vert,
-                    color: Colors.black,
+                  child: GestureDetector(
+                    onTap: () => showDialog(
+                        context: context,
+                        builder: (BuildContext contex) =>
+                            const AlertNotImplemented(
+                              title: 'Config',
+                              content: 'Not Implemented Yet',
+                            )),
+                    child: Icon(
+                      size: 24.sp / 1.2,
+                      ExploreBaliIsland.more_vert,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ],
@@ -83,59 +114,29 @@ class PlaceInfo extends StatelessWidget {
             child: Column(
               children: [
                 BlurBox(
-                  height: 22.sp,
-                  width: 100.sp,
-                  radius: 100,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 7.sp,
-                        width: 7.sp,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(
-                                color: Color(0xffF0F0F0).withOpacity(0.4),
-                                width: 1)),
+                    height: 22.sp,
+                    width: 100.sp,
+                    radius: 100,
+                    child: Center(
+                      child: SmoothPageIndicator(
+                        controller: _pageController,
+                        count: widget.img.length,
+                        axisDirection: Axis.horizontal,
+                        effect: WormEffect(
+                            dotHeight: 8.sp,
+                            dotWidth: 8.sp,
+                            activeDotColor: Colors.white,
+                            dotColor: Colors.grey,
+                            strokeWidth: 2,
+                            spacing: 8.sp),
                       ),
-                      SizedBox(
-                        width: 3.sp,
-                      ),
-                      Container(
-                        height: 7.sp,
-                        width: 37.sp,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Colors.white,
-                            border:
-                                Border.all(color: Color(0xffF0F0F0), width: 1)),
-                      ),
-                      SizedBox(
-                        width: 3.sp,
-                      ),
-                      Container(
-                        height: 7.sp,
-                        width: 7.sp,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(
-                                color: Color(0xffF0F0F0).withOpacity(0.4),
-                                width: 1)),
-                      ),
-                    ],
-                  ),
-                ),
+                    )),
                 SizedBox(
                   height: 10.sp,
                 ),
                 GestureDetector(
                   onTap: () {
-                    showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        context: context,
-                        builder: (context) {
-                          return Sheet(map: map, star: star, dsc: dsc);
-                        });
+                    showInfo(context);
                   },
                   child: Container(
                     height: 20.sp,
@@ -160,6 +161,15 @@ class PlaceInfo extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<dynamic> showInfo(BuildContext context) {
+    return showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return Sheet(map: widget.map, star: widget.star, dsc: widget.dsc);
+        });
   }
 }
 
@@ -243,11 +253,46 @@ class Sheet extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 20.sp, left: 30.sp, right: 30.sp),
-            child: Text(
-              dsc,
-              style: TextStyle(color: const Color(0xffABABAB), fontSize: 12.sp),
+          Center(
+            child: Container(
+              padding: EdgeInsets.only(top: 10.sp),
+              color: Colors.transparent,
+              height: 90.sp,
+              width: 230.sp,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Text(
+                  dsc,
+                  style: TextStyle(
+                      color: const Color(0xffABABAB), fontSize: 12.sp),
+                ),
+              ),
+            ),
+          ),
+          Center(
+            child: GestureDetector(
+              onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) =>
+                    const AlertNotImplemented(title: 'Route'),
+              ),
+              child: Container(
+                height: 36.sp,
+                width: 230.sp,
+                decoration: BoxDecoration(
+                    color: const Color(0xffA5BE00),
+                    borderRadius: BorderRadius.circular(100)),
+                child: Center(
+                  child: Text(
+                    'Get Route',
+                    style: TextStyle(
+                        color: const Color(0xff1D1D1D),
+                        fontFamily: 'Nunito',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.sp),
+                  ),
+                ),
+              ),
             ),
           )
         ],

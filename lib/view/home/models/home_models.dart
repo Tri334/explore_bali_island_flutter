@@ -1,1 +1,1 @@
-var listOfPlace = ['All', 'Forest', 'Waterfall', 'Beach'];
+List<String> listOfPlace = ['All', 'Forest', 'Waterfall', 'Beach'];

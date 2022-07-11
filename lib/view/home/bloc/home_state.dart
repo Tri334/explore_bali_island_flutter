@@ -10,6 +10,7 @@ class HomeInitial extends Equatable {
   final List<Popular> popular;
   final List<Nearby> nearby;
   final ApiRespond newStatus;
+
   HomeInitial copyWith() {
     return HomeInitial(nearby: nearby, popular: popular, newStatus: newStatus);
   }
@@ -19,21 +20,30 @@ class HomeInitial extends Equatable {
 }
 
 class InitialState extends Equatable {
+  final String selectedFilter;
+  final String type;
+
   final List<Nearby> nearby;
   final List<Popular> popular;
   final ApiRespond newStatus;
 
   const InitialState(
-      {this.nearby = const <Nearby>[],
+      {required this.selectedFilter,
+      this.type = 'nearby',
+      this.nearby = const <Nearby>[],
       this.popular = const <Popular>[],
       this.newStatus = ApiRespond.fetchInitial});
 
   InitialState copyWith({
+    selectedFilter,
+    type,
     List<Nearby>? nearby,
     List<Popular>? popular,
     ApiRespond? status,
   }) {
     return InitialState(
+        type: type ?? this.type,
+        selectedFilter: selectedFilter ?? this.selectedFilter,
         nearby: nearby ?? this.nearby,
         popular: popular ?? this.popular,
         newStatus: status ?? newStatus);
@@ -41,10 +51,5 @@ class InitialState extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [nearby, popular];
-}
-
-class ChangeType extends HomeInitial {
-  String type;
-  ChangeType({this.type = ''});
+  List<Object?> get props => [selectedFilter, nearby, popular, newStatus];
 }

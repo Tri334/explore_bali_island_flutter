@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:explore_bali_island_flutter/icons/explore_bali_island_icons.dart';
 import 'package:explore_bali_island_flutter/view/home/bloc/api/service_api.dart';
 import 'package:explore_bali_island_flutter/view/home/bloc/home_bloc.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 part 'home/home_pages.dart';
 part 'home/widget/place_info.dart';
@@ -16,8 +19,21 @@ part '../view/home/widget/image_box.dart';
 
 part '../model/model.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
+
+  @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  final PageController _pageController = PageController(initialPage: 1);
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,20 +43,37 @@ class LandingPage extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: const Image(
-              image: AssetImage('assets/images/landingPage.png'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                const Color.fromARGB(255, 0, 0, 0).withOpacity(0.9),
-                const Color(0xff1D1D1D).withOpacity(0),
-              ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
-            ),
+            child: PageView.builder(
+                scrollDirection: Axis.horizontal,
+                controller: _pageController,
+                itemBuilder: (context, index) {
+                  return Stack(children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: AssetImage(
+                            landingImages[index % landingImages.length]),
+                        fit: BoxFit.cover,
+                      )),
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [
+                              const Color.fromARGB(255, 0, 0, 0)
+                                  .withOpacity(0.9),
+                              const Color(0xff1D1D1D).withOpacity(0),
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter),
+                      ),
+                    ),
+                  ]);
+                }),
           ),
           Positioned(
               top: 40,
@@ -127,57 +160,18 @@ class LandingPage extends StatelessWidget {
                                     flex: 3,
                                     child: Center(
                                       child: Container(
-                                        color: Colors.transparent,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              height: 7.sp,
-                                              width: 37.sp,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  color: Colors.white,
-                                                  border: Border.all(
-                                                      color: Color(0xffF0F0F0),
-                                                      width: 1)),
-                                            ),
-                                            SizedBox(
-                                              width: 3.sp,
-                                            ),
-                                            Container(
-                                              height: 7.sp,
-                                              width: 7.sp,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  border: Border.all(
-                                                      color: const Color(
-                                                              0xffF0F0F0)
-                                                          .withOpacity(0.4),
-                                                      width: 1)),
-                                            ),
-                                            SizedBox(
-                                              width: 3.sp,
-                                            ),
-                                            Container(
-                                              height: 7.sp,
-                                              width: 7.sp,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  border: Border.all(
-                                                      color: Color(0xffF0F0F0)
-                                                          .withOpacity(0.4),
-                                                      width: 1)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                          color: Colors.transparent,
+                                          child: SmoothPageIndicator(
+                                              axisDirection: Axis.horizontal,
+                                              controller: _pageController,
+                                              count: landingImages.length,
+                                              effect: WormEffect(
+                                                  dotHeight: 8.sp,
+                                                  dotWidth: 8.sp,
+                                                  activeDotColor: Colors.white,
+                                                  dotColor: Colors.grey,
+                                                  strokeWidth: 2,
+                                                  spacing: 8.sp))),
                                     )),
                                 const Expanded(
                                   flex: 5,
@@ -222,6 +216,37 @@ class LandingPage extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class AlertNotImplemented extends StatelessWidget {
+  const AlertNotImplemented({
+    Key? key,
+    this.title = 'Not Found',
+    this.content = 'Not Implemented Yet',
+  }) : super(key: key);
+  final String title, content;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        title,
+        textAlign: TextAlign.center,
+      ),
+      content: Text(
+        content,
+        textAlign: TextAlign.center,
+      ),
+      actions: [
+        Center(
+          child: TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK')),
+        )
+      ],
     );
   }
 }
