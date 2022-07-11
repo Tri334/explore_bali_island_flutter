@@ -221,8 +221,12 @@ class _HomePageState extends State<HomePage> {
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                       border: Border.all(
-                                                          color: const Color(
-                                                              0xffABABAB),
+                                                          color: state.selectedFilter ==
+                                                                  places
+                                                              ? Colors
+                                                                  .transparent
+                                                              : const Color(
+                                                                  0xffABABAB),
                                                           width: 1),
                                                       color:
                                                           state.selectedFilter ==
