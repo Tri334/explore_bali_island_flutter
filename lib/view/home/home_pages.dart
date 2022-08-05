@@ -153,43 +153,41 @@ class _HomePageState extends State<HomePage> {
                                 BlocSelector<HomeBloc, InitialState, dynamic>(
                                   selector: (state) {
                                     debugPrint('Refresh Nearby');
-                                    if (state.newStatus ==
-                                        ApiRespond.fetchInitial) {
-                                      return [];
-                                    } else {
-                                      return state.nearby;
-                                    }
+                                    return state.newStatus ==
+                                            ApiRespond.fetchInitial
+                                        ? []
+                                        : state.nearby;
                                   },
                                   builder: (context, state) {
-                                    if (state == []) {
-                                      return Center(
-                                        child: SizedBox(
-                                          height: 200.sp,
-                                          width: 200.sp,
-                                          child: Container(
-                                              padding: EdgeInsets.all(85.sp),
-                                              child:
-                                                  const CircularProgressIndicator()),
-                                        ),
-                                      );
-                                    } else {
-                                      return SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        child: Row(
-                                            children: state.map<Widget>((data) {
-                                          return ImageBox(
-                                            type: 'nearby',
-                                            distant: data.distant,
-                                            map: data.map,
-                                            img: data.img,
-                                            place: data.place,
-                                            star: data.star,
-                                            dsc: data.desc,
-                                            fav: data.favorite,
+                                    return state == []
+                                        ? Center(
+                                            child: SizedBox(
+                                              height: 200.sp,
+                                              width: 200.sp,
+                                              child: Container(
+                                                  padding:
+                                                      EdgeInsets.all(85.sp),
+                                                  child:
+                                                      const CircularProgressIndicator()),
+                                            ),
+                                          )
+                                        : SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                                children:
+                                                    state.map<Widget>((data) {
+                                              return ImageBox(
+                                                type: 'nearby',
+                                                distant: data.distant,
+                                                map: data.map,
+                                                img: data.img,
+                                                place: data.place,
+                                                star: data.star,
+                                                dsc: data.desc,
+                                                fav: data.favorite,
+                                              );
+                                            }).toList()),
                                           );
-                                        }).toList()),
-                                      );
-                                    }
                                   },
                                 ),
                                 Text(
